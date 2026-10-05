@@ -2,12 +2,12 @@ import Link from 'next/link';
 import { Home, Users, CreditCard, Package, BookOpen, User } from 'lucide-react';
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: Home },
-  { name: 'My Referrals', href: '/dashboard/referrals', icon: Users },
-  { name: 'Commissions', href: '/dashboard/commissions', icon: CreditCard },
-  { name: 'Products', href: '/dashboard/products', icon: Package },
-  { name: 'Resources', href: '/dashboard/resources', icon: BookOpen },
-  { name: 'Profile', href: '/dashboard/profile', icon: User },
+  { name: 'Dashboard', href: '/portal/dashboard', icon: Home },
+  { name: 'My Referrals', href: '/portal/dashboard/referrals', icon: Users },
+  { name: 'Commissions', href: '/portal/dashboard/commissions', icon: CreditCard },
+  { name: 'Products', href: '/portal/dashboard/products', icon: Package },
+  { name: 'Resources', href: '/portal/dashboard/resources', icon: BookOpen },
+  { name: 'Profile', href: '/portal/dashboard/profile', icon: User },
 ];
 
 export function Sidebar() {

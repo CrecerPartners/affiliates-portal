@@ -35,7 +35,7 @@ export function RecommendedCarousel() {
               />
             ))}
           </div>
-          <Link href="/dashboard/products" className="text-sm font-semibold text-br-blue hover:text-br-navy transition-colors flex items-center group">
+          <Link href="/portal/dashboard/products" className="text-sm font-semibold text-br-blue hover:text-br-navy transition-colors flex items-center group">
             View All <ArrowRight className="h-3.5 w-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
@@ -53,7 +53,7 @@ export function RecommendedCarousel() {
                   : "opacity-0 translate-x-full z-0"
             }`}
           >
-            <Link href={`/dashboard/products/${product.slug}`} className="block group h-full">
+            <Link href={`/portal/dashboard/products/${product.slug}`} className="block group h-full">
               <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:border-br-blue/20 hover:shadow-md transition-all flex items-center justify-between h-full">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-gray-50 text-gray-500 rounded-xl group-hover:bg-br-blue group-hover:text-white transition-colors shrink-0">

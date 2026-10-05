@@ -15,7 +15,7 @@ export default async function SalesToolkitPage({ params }: { params: Promise<{ s
   return (
     <div className="max-w-5xl mx-auto pb-24">
       {/* Back Nav */}
-      <Link href={`/dashboard/products/${product.slug}`} className="inline-flex items-center text-sm font-semibold text-gray-500 hover:text-br-blue transition-colors mb-8 group">
+      <Link href={`/portal/dashboard/products/${product.slug}`} className="inline-flex items-center text-sm font-semibold text-gray-500 hover:text-br-blue transition-colors mb-8 group">
         <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" /> Back to {product.name}
       </Link>
 

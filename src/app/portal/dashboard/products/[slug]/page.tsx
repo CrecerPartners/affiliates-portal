@@ -19,7 +19,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       
       {/* Back Navigation */}
       <div className="mb-6">
-        <Link href="/dashboard" className="inline-flex items-center text-sm font-semibold text-gray-500 hover:text-br-blue transition-colors group">
+        <Link href="/portal/dashboard" className="inline-flex items-center text-sm font-semibold text-gray-500 hover:text-br-blue transition-colors group">
           <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
         </Link>
       </div>
@@ -74,7 +74,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
              </div>
            </div>
            
-           <Link href={`/dashboard/products/${product.slug}/toolkit`} className="w-full md:w-auto shrink-0">
+           <Link href={`/portal/dashboard/products/${product.slug}/toolkit`} className="w-full md:w-auto shrink-0">
              <Button className="w-full bg-[#5E42F5] hover:bg-[#4d34d1] text-white font-bold font-outfit rounded-xl h-11 px-8 shadow-[0_4px_14px_0_rgba(94,66,245,0.39)] transition-all">
                 Sales Toolkit
              </Button>
