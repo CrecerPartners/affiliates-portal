@@ -1,0 +1,370 @@
+"use client";
+
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { PackageOpen, ExternalLink, Tag, Briefcase, Search, Filter, X, CheckCircle2, Zap, Target, Info } from "lucide-react";
+import Link from "next/link";
+
+
+type Product = {
+  name: string;
+  category: string;
+  description: string;
+  price: string;
+  affiliateComm: string;
+  partnerComm: string;
+  popular: boolean;
+  features: string[];
+  benefits: string[];
+  useCases: string[];
+};
+
+const categories = ["All", "Bundles", "Software", "Automation"];
+
+const products: Product[] = [
+    {
+      name: "SME Business Growth Bundle",
+      category: "Bundles",
+      description: "A complete growth suite: Website + CRM + Loyalty Programme. Built to help growing businesses launch and scale their digital presence quickly.",
+      price: "₦890,000",
+      affiliateComm: "₦100,000",
+      partnerComm: "₦50,000",
+      popular: true,
+      features: [
+        "Professional Custom Website Design",
+        "CRM Configuration & Setup",
+        "Digital Loyalty Programme Integration",
+        "Google Workspace & Email Setup",
+        "1 Year Free Hosting & Domain"
+      ],
+      benefits: [
+        "Establishes instant professional credibility",
+        "Saves 15+ hours a week on manual data entry",
+        "Automates customer follow-ups and retention",
+        "All-in-one scalable foundation for growth"
+      ],
+      useCases: [
+        "Retail stores moving to e-commerce",
+        "Consulting firms needing professional branding",
+        "Service businesses managing client pipelines"
+      ]
+    },
+    {
+      name: "Customer Relationship Management (CRM)",
+      category: "Software",
+      description: "Manage leads, automate follow-ups, and organize sales pipelines efficiently. Perfect for businesses losing track of their prospects.",
+      price: "₦450,000",
+      affiliateComm: "₦45,000",
+      partnerComm: "₦20,000",
+      popular: false,
+      features: [
+        "Visual Sales Pipeline Builder",
+        "Automated Email & SMS Follow-ups",
+        "Lead Capture Forms & Webhooks",
+        "Task Management & Reminders",
+        "Advanced Sales Reporting & Analytics"
+      ],
+      benefits: [
+        "Prevents leads from falling through the cracks",
+        "Increases sales conversion rates by 30%",
+        "Gives managers complete visibility into team performance"
+      ],
+      useCases: [
+        "Real Estate Agencies managing buyers",
+        "B2B Service Providers with long sales cycles",
+        "Education consultancies managing student intakes"
+      ]
+    },
+    {
+      name: "Customer Loyalty Programme",
+      category: "Software",
+      description: "Digital loyalty cards and reward systems to keep customers coming back. Easily replace paper stamp cards.",
+      price: "₦300,000",
+      affiliateComm: "₦30,000",
+      partnerComm: "₦15,000",
+      popular: false,
+      features: [
+        "Digital Stamp Cards (Apple/Google Wallet)",
+        "Points-Based Reward System",
+        "Automated 'We Miss You' SMS Campaigns",
+        "Customer Spend Analytics Dashboard"
+      ],
+      benefits: [
+        "Increases repeat customer visits by up to 40%",
+        "Eliminates fraud associated with paper cards",
+        "Builds a highly targeted marketing database"
+      ],
+      useCases: [
+        "Coffee Shops & Quick Service Restaurants",
+        "Salons & Spas",
+        "Boutique Retail Stores"
+      ]
+    },
+    {
+      name: "WhatsApp Automation Suite",
+      category: "Automation",
+      description: "AI-powered WhatsApp chatbots for customer service and automated order taking directly in WhatsApp.",
+      price: "₦250,000",
+      affiliateComm: "₦25,000",
+      partnerComm: "₦10,000",
+      popular: true,
+      features: [
+        "24/7 AI Customer Support Chatbot",
+        "Automated Order Processing Flow",
+        "Abandoned Cart WhatsApp Reminders",
+        "Broadcast Messaging to Customer Lists",
+        "Multi-Agent Shared Inbox"
+      ],
+      benefits: [
+        "Provides instant replies to customers 24/7",
+        "Reduces customer service workload by 70%",
+        "Captures sales outside of business hours"
+      ],
+      useCases: [
+        "E-commerce stores taking orders via chat",
+        "Logistics companies providing tracking updates",
+        "Clinics automating appointment bookings"
+      ]
+    }
+  ];
+
+export default function ProductsPage() {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  // Filter Logic
+  const filteredProducts = products.filter(p => {
+    const matchesCategory = activeCategory === "All" || p.category === activeCategory;
+    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  return (
+    <div className="space-y-8 max-w-6xl mx-auto pb-12 relative">
+      {/* Header & Filter Bar */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+        <div>
+          <h1 className="text-3xl font-bold font-outfit tracking-tight text-br-navy">Products</h1>
+          <p className="text-gray-500 mt-2 font-medium">Understand the BlueRock products and what you earn for each.</p>
+        </div>
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <input 
+              type="text" 
+              placeholder="Search products..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-br-blue/20 focus:border-br-blue transition-all shadow-sm"
+            />
+          </div>
+          <Button variant="outline" className="w-full sm:w-auto h-9 rounded-xl border-gray-200 text-gray-600 bg-white shadow-sm hidden sm:flex">
+            <Filter className="h-4 w-4 mr-2" /> Filters
+          </Button>
+        </div>
+      </div>
+
+      {/* Categories Segmented Control */}
+      <div className="flex overflow-x-auto pb-2 scrollbar-hide">
+        <div className="flex p-1 bg-gray-100/80 rounded-xl border border-gray-200/50">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-5 py-1.5 rounded-lg text-sm font-semibold font-outfit transition-all ${
+                activeCategory === cat 
+                  ? "bg-white text-br-navy shadow-sm border border-gray-200/50" 
+                  : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Products Grid */}
+      <div className="grid gap-6 md:grid-cols-2">
+        {filteredProducts.map((product, i) => (
+          <Card key={i} className="rounded-2xl border-gray-100 shadow-sm bg-white overflow-hidden flex flex-col hover:shadow-md hover:border-br-blue/20 transition-all relative group">
+            {product.popular && (
+              <div className="absolute top-0 right-0 bg-gradient-to-r from-amber-400 to-amber-500 text-white text-[10px] font-bold font-outfit px-3 py-1 rounded-bl-xl tracking-wider uppercase shadow-sm">
+                High Converter
+              </div>
+            )}
+            <CardHeader className="pb-4 pt-6 px-6 bg-gradient-to-b from-gray-50/80 to-white">
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-2.5 bg-br-blue/10 rounded-xl text-br-blue ring-1 ring-br-blue/10">
+                  <PackageOpen className="h-5 w-5" />
+                </div>
+                <span className="text-xs font-bold font-outfit text-gray-400 uppercase tracking-wider bg-gray-100 px-2.5 py-1 rounded-md">
+                  {product.category}
+                </span>
+              </div>
+              <CardTitle className="text-xl font-bold font-outfit text-br-navy leading-tight group-hover:text-br-blue transition-colors">
+                {product.name}
+              </CardTitle>
+              <p className="text-sm text-gray-500 leading-relaxed mt-2 line-clamp-2">
+                {product.description}
+              </p>
+            </CardHeader>
+            <CardContent className="px-6 py-5 flex-1">
+              <div className="flex items-center justify-between mb-5 pb-5 border-b border-gray-50">
+                <div className="flex items-center gap-2 text-gray-500">
+                  <Tag className="h-4 w-4" />
+                  <span className="text-sm font-medium">Retail Price</span>
+                </div>
+                <span className="font-extrabold font-outfit text-br-navy text-xl">{product.price}</span>
+              </div>
+              
+              <div className="space-y-3 bg-blue-50/50 p-4 rounded-xl border border-blue-100/50 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-br-blue"></div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold font-outfit text-br-navy flex items-center gap-2">
+                    <Briefcase className="h-4 w-4 text-br-blue" /> Your Commission
+                  </span>
+                  <span className="font-extrabold font-outfit text-br-blue text-lg">{product.affiliateComm}</span>
+                </div>
+                <div className="flex items-center justify-between opacity-70">
+                  <span className="text-sm font-medium text-gray-600 pl-6">Sub-Partner Tier</span>
+                  <span className="font-bold font-outfit text-gray-600">{product.partnerComm}</span>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="px-6 pb-6 pt-0 flex gap-3">
+              <Button 
+                onClick={() => setSelectedProduct(product)}
+                className="flex-1 rounded-xl bg-br-blue hover:bg-br-navy text-white h-11 font-semibold font-outfit shadow-sm transition-all"
+              >
+                <Info className="h-4 w-4 mr-2" /> View Details
+              </Button>
+              <Link href="/dashboard/resources" className="flex-1">
+                <Button variant="outline" className="w-full rounded-xl border-gray-200 text-gray-600 hover:text-br-blue hover:bg-br-blue/5 h-11 font-semibold font-outfit">
+                  <ExternalLink className="h-4 w-4 mr-2" /> Resources
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+
+      {filteredProducts.length === 0 && (
+        <div className="text-center py-16 bg-white border border-gray-100 rounded-2xl">
+          <PackageOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-bold font-outfit text-br-navy">No products found</h3>
+          <p className="text-gray-500 text-sm mt-1">Try adjusting your filters or search query.</p>
+        </div>
+      )}
+
+      {/* Product Details Slide-Over (Sheet) */}
+      {selectedProduct && (
+        <>
+          <div 
+            className="fixed inset-0 bg-br-navy/40 backdrop-blur-sm z-40 transition-opacity"
+            onClick={() => setSelectedProduct(null)}
+          ></div>
+          <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl border-l border-gray-100 overflow-y-auto transform transition-transform duration-300 ease-in-out">
+            <div className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 py-4 flex items-center justify-between z-10">
+              <h2 className="text-lg font-bold font-outfit text-br-navy">Product Details</h2>
+              <Button variant="ghost" size="icon" onClick={() => setSelectedProduct(null)} className="h-8 w-8 rounded-full hover:bg-gray-100 text-gray-500">
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+            
+            <div className="p-6 space-y-8">
+              {/* Header Info */}
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs font-bold font-outfit text-br-blue uppercase tracking-wider bg-blue-50 px-2 py-1 rounded-md">
+                    {selectedProduct.category}
+                  </span>
+                  {selectedProduct.popular && (
+                    <span className="text-xs font-bold font-outfit text-amber-600 uppercase tracking-wider bg-amber-50 px-2 py-1 rounded-md">
+                      Popular
+                    </span>
+                  )}
+                </div>
+                <h1 className="text-2xl font-extrabold font-outfit text-br-navy leading-tight mb-2">
+                  {selectedProduct.name}
+                </h1>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {selectedProduct.description}
+                </p>
+              </div>
+
+              {/* Pricing & Commission Block */}
+              <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5 space-y-4">
+                <div className="flex justify-between items-center pb-4 border-b border-gray-200/60">
+                  <span className="text-sm font-medium text-gray-500">Retail Price</span>
+                  <span className="text-xl font-bold font-outfit text-br-navy">{selectedProduct.price}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-bold font-outfit text-br-blue flex items-center gap-2">
+                    <Briefcase className="h-4 w-4" /> Your Commission
+                  </span>
+                  <span className="text-xl font-extrabold font-outfit text-br-blue">{selectedProduct.affiliateComm}</span>
+                </div>
+              </div>
+
+              {/* Full Feature List */}
+              <div>
+                <h3 className="text-sm font-bold font-outfit text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <Zap className="h-4 w-4 text-br-blue" /> Full Features
+                </h3>
+                <ul className="space-y-3">
+                  {selectedProduct.features.map((feature: string, idx: number) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0" />
+                      <span className="text-sm text-gray-700 font-medium">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Benefits */}
+              <div>
+                <h3 className="text-sm font-bold font-outfit text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-green-500" /> Key Benefits
+                </h3>
+                <ul className="space-y-3">
+                  {selectedProduct.benefits.map((benefit: string, idx: number) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <div className="h-1.5 w-1.5 rounded-full bg-green-500 mt-2 shrink-0"></div>
+                      <span className="text-sm text-gray-600 leading-relaxed">{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Target Audience / Use Cases */}
+              <div>
+                <h3 className="text-sm font-bold font-outfit text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <Target className="h-4 w-4 text-amber-500" /> Target Audience
+                </h3>
+                <ul className="space-y-3">
+                  {selectedProduct.useCases.map((useCase: string, idx: number) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <div className="h-1.5 w-1.5 rounded-full bg-amber-500 mt-2 shrink-0"></div>
+                      <span className="text-sm text-gray-600 leading-relaxed">{useCase}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+            </div>
+            
+            <div className="sticky bottom-0 bg-white border-t border-gray-100 p-4 flex gap-3">
+              <Link href="/dashboard/resources" className="flex-1 block">
+                <Button className="w-full rounded-xl bg-br-blue hover:bg-br-navy text-white h-12 font-semibold font-outfit shadow-sm">
+                  <ExternalLink className="h-4 w-4 mr-2" /> Get Sales Resources
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}

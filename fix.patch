@@ -1,0 +1,38 @@
+--- src/app/dashboard/products/page.tsx
++++ src/app/dashboard/products/page.tsx
+@@ -7,9 +7,9 @@
+ import { PackageOpen, ExternalLink, Tag, Briefcase, Search, Filter, X, CheckCircle2, Zap, Target, Info } from "lucide-react";
+ import Link from "next/link";
+ 
+-export default function ProductsPage() {
+-  const [activeCategory, setActiveCategory] = useState("All");
+-  const [searchQuery, setSearchQuery] = useState("");
+-  const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
+-
+-  const categories = ["All", "Bundles", "Software", "Automation"];
+-
+-  const products = [
++const categories = ["All", "Bundles", "Software", "Automation"];
++
++type Product = {
++  name: string;
++  category: string;
++  description: string;
++  price: string;
++  affiliateComm: string;
++  partnerComm: string;
++  popular: boolean;
++  features: string[];
++  benefits: string[];
++  useCases: string[];
++};
++
++const products: Product[] = [
+@@ -102,2 +116,6 @@
+ 
++export default function ProductsPage() {
++  const [activeCategory, setActiveCategory] = useState("All");
++  const [searchQuery, setSearchQuery] = useState("");
++  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
++
+   // Filter Logic
