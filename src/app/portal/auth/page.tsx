@@ -13,9 +13,9 @@ export default function AuthPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isLogin) {
-      router.push("/dashboard");
+      router.push("/portal/dashboard");
     } else {
-      router.push("/onboarding");
+      router.push("/portal/onboarding");
     }
   };
 
