@@ -79,7 +79,7 @@ export default function ProductsPage() {
           return (
             <div 
               key={product.slug}
-              onClick={() => router.push(`/dashboard/products/${product.slug}`)}
+              onClick={() => router.push(`/portal/dashboard/products/${product.slug}`)}
               className={`group relative p-8 rounded-[32px] flex flex-col min-h-[360px] ${style.bg} transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] cursor-pointer overflow-hidden`}
             >
               {/* Top Status & Organic Icon */}

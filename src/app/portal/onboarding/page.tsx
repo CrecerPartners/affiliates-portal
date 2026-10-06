@@ -25,7 +25,7 @@ export default function OnboardingWizard() {
     if (step < totalSteps) {
       setStep(step + 1);
     } else {
-      router.push("/dashboard");
+      router.push("/portal/dashboard");
     }
   };
 
